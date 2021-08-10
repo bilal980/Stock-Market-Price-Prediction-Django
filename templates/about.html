@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% load static %}
+{% block heads %}
+
+
+<link rel="stylesheet" href="{% static 'css/sidebar.css'%}">
+<link rel="stylesheet" href="{% static 'css/custom.css'%}">
+
+
+
+{% endblock heads %}
+{% block title %}About Us{% endblock title %}
+
+
+{% block logoutmodal %}
+{% include 'components/logoutconfirm.html' %}
+{% endblock logoutmodal %}
+
+
+{% block sidebar %}
+{% include 'components/sidebar.html' %}
+{% endblock sidebar %}
+
+
+{% block content %}
+{% include 'components/navbar.html' %}
+<br>
+<br>
+<div>
+    <h2 class="blogtitle"><span>---Project Team---</span></h2>
+    <br />
+</div>
+
+<div class="container">
+    <div class="card-deck">
+        <div class="card" style="background: #fafafa;">
+            <img style="height: 300px;" src="{%static 'img/team/rizwan.jpg'%}" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">Rizwan Maqsood</h5>
+                <p class="card-text">Developer</p>
+            </div>
+
+        </div>
+        <div class="card">
+            <img style="height: 300px;" src="{%static 'img/team/sir_rashid.jpg'%}" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">Dr. Rashid</h5>
+                <p class="card-text">Supervisor</p>
+            </div>
+
+        </div>
+        <div class="card">
+            <img style="height: 300px;" src="{%static 'img/team/bilal.png'%}" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">Muhammad Bilal</h5>
+                <p class="card-text">Developer</p>
+            </div>
+
+        </div>
+    </div>
+    <p style="font-weight: 200;color: black;">Fox Trading With AI is a Final year project developed by Muhammad Bilal &
+        Rizwand Maqsood student of University of Kotli under supervision of Dr. Rashid. </p>
+</div>
+{% include 'components/contact.html' %}
+{% include 'components/footer.html' %}
+{% endblock content %}
+{% block scripts %}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#sidebarCollapse').on('click', function () {
+            $('#sidebar').toggleClass('active');
+            $(this).toggleClass('active');
+        });
+    });
+</script>
+{% endblock scripts %}

@@ -1,0 +1,67 @@
+{% load static %}
+<div class="wrapper">
+    <!-- Sidebar Holder -->
+    <nav id="sidebar">
+        <div class="sidebar-header sticky-top">
+            <img style="padding: 0%; float: left" height="50" src="{% static 'img\logo.png'%}" />
+            <h2 style="margin-top: 6px">Trading</h2>
+        </div>
+
+        <ul class="list-unstyled components sticky-top">
+            <p></p>
+            <p></p>
+            <li class="
+            {% if sbar == 'home' %}
+                active
+            {% endif %}
+                ">
+                <a href="/home/">Home</a>
+            </li>
+            <li class="{% if sbar == 'trading' %}
+                active
+            {% endif %}">
+                <a href="{%url 'prediction_home'%}" class="">Trading With AI</a>
+            </li>
+            <li class="{% if sbar == 'blog' %}
+                active
+            {% endif %}">
+                <a href="/blog/">Blog</a>
+            </li>
+            <li class="{% if sbar == 'about' %}
+                active
+            {% endif %}" >
+                <a href="{%url 'about'%}">About</a>
+            </li>
+            
+            <li class="">
+                <a href="/home/#contactsection">Contact</a>
+            </li>
+            <li class="{% if sbar == 'profile' %}
+                active
+            {% endif %}">
+                <a href="#profilesubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Profile</a>
+                <ul class="collapse list-unstyled" id="profilesubmenu">
+                    <li>
+                        <a href="{%url 'change_password'%}">Change Password</a>
+                    </li>
+                    <!-- <li>
+                        <a href="#">Home 2</a>
+                    </li>
+                    <li>
+                        <a href="#">Home 3</a>
+                    </li> -->
+                </ul>
+            </li>
+            
+        </ul>
+
+    </nav>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#sidebarCollapse").on("click", function () {
+                $("#sidebar").toggleClass("active");
+                $(this).toggleClass("active");
+            });
+        });
+    </script>

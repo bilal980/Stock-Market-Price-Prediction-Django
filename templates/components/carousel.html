@@ -1,0 +1,68 @@
+{% load static %}
+
+
+<div class="container my-4">
+
+  <!--Carousel Wrapper-->
+  <div id="carousel-example-2" class="carousel slide carousel-fade" data-ride="carousel">
+    <!--Indicators-->
+    <!-- <ol class="carousel-indicators">
+        <li data-target="#carousel-example-2" data-slide-to="0" class="active"></li>
+        <li data-target="#carousel-example-2" data-slide-to="1"></li>
+        <li data-target="#carousel-example-2" data-slide-to="2"></li>
+      </ol> -->
+    <!--/.Indicators-->
+    <!--Slides-->
+    <div class="carousel-inner h-100" role="listbox">
+      <div class="carousel-item active">
+        <div class="view" style="max-height: 400px !important;width:100%">
+          <video autoplay loop class='d-block w-100 '>
+            <source src="{% static 'img\bg.mp4'%}" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+          <div class="mask rgba-black-light"></div>
+        </div>
+        <div class="carousel-caption">
+          <p style="color: whitesmoke;">Fox Trading Work with power of Artificial Intelligence</p>
+          <a type="button" href="{%url 'prediction_home'%}">
+            <h3 class="h3-responsive"><button class='tradingbutton'>Invest Smartly</button></h3>
+          </a>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <!--Mask color-->
+        <div class="view" style="max-height: 400px !important;width:100%">
+          <video autoplay loop class='d-block w-100'>
+            <source src="{% static 'img\bg.mp4'%}" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+          <div class="mask rgba-black-strong"></div>
+        </div>
+        <div class="carousel-caption">
+          <a type="button" href="#">
+            <p style="color: whitesmoke;">Fox Trading Work with power of Artificial Intelligence</p>
+            <h3 class="h3-responsive"><button class='tradingbutton'>Invest Smartly</button></h3>
+          </a>
+
+        </div>
+      </div>
+      <div class="carousel-item">
+        <!--Mask color-->
+        <div class="view" style="max-height: 400px !important;width:100%">
+          <video autoplay loop class='d-block w-100'>
+            <source src="{% static 'img\bg.mp4'%}" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+          <div class="mask rgba-black-slight"></div>
+        </div>
+        <div style="text-align: center;" class="carousel-caption">
+          <p style="color: whitesmoke;">Machine Not Sleep Like Humans</p>
+          <a type="button" href="#">
+            <h3 class="h3-responsive"><button class='tradingbutton'>Invest Smartly</button></h3>
+          </a>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

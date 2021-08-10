@@ -1,0 +1,27 @@
+{% load static %}
+
+<nav class="navbar navbar-expand-lg mx-background-top-linear sticky-top p-0 m-0">
+  <div class="container-fluid">
+    <button type="button" id="sidebarCollapse" class="navbar-btn">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <button class="btn btn-dark d-inline-block p-0 d-lg-none ml-auto" type="button" data-toggle="collapse"
+      data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+      aria-label="Toggle navigation">
+      <i class=" mr-3 fas fa-align-justify"></i>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      
+      <ul class="nav navbar-nav ml-auto">
+        <li style='border-right:1px solid' class="nav-item">
+          <a class='nav-link' type="button" id='logout' data-toggle="modal" data-target="#exampleModal" href='#'>
+            <i style="color:orangered;" class="fas fa-sign-out-alt fa-2x">Logout</i></a>
+        </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>

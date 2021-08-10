@@ -1,0 +1,1 @@
+web: gunicorn foxtrading.wsgi --timeout 180

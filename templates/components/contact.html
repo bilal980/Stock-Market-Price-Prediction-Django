@@ -1,0 +1,88 @@
+{% load static %}
+
+{% if user.is_authenticated %}
+
+<a id='contactsection'></a>
+<br>
+<br>
+<br>
+<section class="site-section bg-light" data-aos="fade">
+  <div class="container">
+    <div class="row mb-5">
+      <div class="col-12 text-center">
+        <h2 class="section-title mb-3">Contact Us</h2>
+      </div>
+    </div>
+    <div class="row mb-5">
+      <div class="col-md-4 text-center">
+        <p class="mb-4">
+          <img style="height:30px" src="{% static '/img/map-marked-solid.svg' %}" alt="">
+          <span>University Of Kotli AJK</span>
+        </p>
+      </div>
+      <div class="col-md-4 text-center">
+        <p class="mb-4">
+          <img style="height:40px" src="{% static '/img/whatsapp-brands.svg' %}" alt="">
+          <a href="#">+1 232 3235 324</a>
+        </p>
+      </div>
+      <div class="col-md-4 text-center">
+        <p class="mb-0">
+          <img style="height:40px" src="{% static '/img/envelope-regular.svg' %}" alt="">
+          <a href="#">foxtrading@gmail.com</a>
+        </p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 mb-5">
+        <!-- <form action="#" method="POST" class="p-5 bg-white">
+          {% csrf_token %}
+          <h2 class="h4 text-black mb-5">Contact Form</h2>
+
+          <div class="row form-group">
+            <div class="col-md-6 mb-3 mb-md-0">
+              <label class="text-black" for="fname">First Name</label>
+              <input type="text" name="fname" readonly value="{{user.first_name}}" id="fname" class="form-control" />
+            </div>
+            <div class="col-md-6">
+              <label class="text-black" for="lname">Last Name</label>
+              <input type="text" name="lname" id="lname" readonly value="{{user.last_name}}" class="form-control" />
+            </div>
+          </div>
+
+          <div class="row form-group">
+            <div class="col-md-12">
+              <label class="text-black" for="email">Email</label>
+              <input readonly type="email" name="email" id="email" value="{{user.email}}" class="form-control" />
+            </div>
+          </div>
+
+          <div class="row form-group">
+            <div class="col-md-12">
+              <label class="text-black" for="subject">Subject</label>
+              <input type="subject" name="subject" id="subject" class="form-control" />
+            </div>
+          </div>
+
+          <div class="row form-group">
+            <div class="col-md-12">
+              <label class="text-black" for="message">Message</label>
+              <textarea name="message" id="message" cols="30" rows="7" class="form-control"
+                placeholder="Write your notes or questions here..."></textarea>
+            </div>
+          </div>
+
+          <div class="row form-group">
+            <div class="col-md-12">
+              <input type="submit" value="Send Message" class="btn btn-primary btn-md text-white" />
+            </div>
+          </div>
+        </form> -->
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+{% endif %}

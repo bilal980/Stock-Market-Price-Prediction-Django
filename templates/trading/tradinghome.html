@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% load static %}
+{% block heads %}
+
+<link rel="stylesheet" href="{% static 'css/sidebar.css'%}">
+<link rel="stylesheet" href="{% static 'css/custom.css'%}">
+
+{% endblock heads %}
+{% block title %}Stock Prediction{% endblock title %}
+
+
+{% block logoutmodal %}
+{% include 'components/logoutconfirm.html' %}
+{% endblock logoutmodal %}
+
+
+{% block sidebar %}
+{% include 'components/sidebar.html' %}
+{% endblock sidebar %}
+{% block content %}
+{% include 'components/navbar.html' %}
+
+<div class="container">
+    <div class="container">
+        <h3>Stock Forecaster </h3>
+    </div>
+
+    <div class="container-fluid mb-5">
+        <h5>Select Data
+            <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="left"
+                title="Data are downloaded from Yahoo Finance"><span class="fa fa-info-circle"></span></button>
+        </h5>
+
+        <div class="row">
+            <!-- INPUT FORM -->
+            <div class="col col-4">
+                <form action="{%url 'model_design'%}" method="POST">
+                    {% csrf_token %}
+                    <br><label>Yahoo Finance Symbol
+                        <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="left"
+                            title="suggestion?">
+                            <a href="https://finance.yahoo.com/trending-tickers/" target="_blank"><span
+                                    class="fa fa-yahoo"></span></a>
+                        </button>
+                    </label>
+                    <br>
+                    <small style='color:green'>If You don't know the symbol of Your desired stock click above yahoo symbol to check.</small>
+                    <input type="text" name="symbol" class="form-control" placeholder="AAPL" required
+                        value={{request.form.symbol}}>
+                    <br><label>From date</label>
+                    <input type="text" name="from" class="form-control" placeholder="YYYY-MM-DD" required
+                        value={{request.form.from}}>
+                    <br><label>To date</label>
+                    <input type="text" name="to" class="form-control"
+                        placeholder="YYYY-MM-DD or if empty it's up to today" value={{request.form.to}}>
+                    <br><label>Variable to predict</label>
+                    <select class="form-control" required name="variable" value={{request.form.variable}}>
+                        <option>Open</option>
+                        <option>High</option>
+                        <option>Low</option>
+                        <option>Close</option>
+                        <option>Volume</option>
+                    </select>
+                    <br><button type="submit" class="btn btn-primary" id="btnData">Get data</button>
+                </form>
+                <script>
+                    $("form").submit(function () {
+                        $("#btnData").html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>');
+                    });
+                </script>
+            </div>
+            <!-- Select from trained model -->
+            <div class="floa ml-5">
+                <br>
+                <br>
+                <h4>Select from Trained model (High accuracy)</h4>
+                <form action="{%url 'trained_model' %}" method="POST">
+                    {% csrf_token %}
+                    <label for="select ticker"><strong style="color: blue;">Ticker :</strong></label>
+                    <select name="ticker" class="pl-2 pb-1 pt-1 pr-3 ml-3 mt-4 mr-4">
+                        <option value="AAPL">AAPL</option>
+                        <!-- <option value="GOOG">Google</option> -->
+                    </select>
+                    <button type="submit" class="btn btn-primary" id="btnData">Get Prediction</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% include 'components/footer.html' %}
+{% endblock content %}
+
+
+{% block scripts %}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#sidebarCollapse').on('click', function () {
+            $('#sidebar').toggleClass('active');
+            $(this).toggleClass('active');
+        });
+    });
+</script>
+{% endblock scripts %}

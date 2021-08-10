@@ -1,0 +1,317 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block heads %}    
+<!-- scripts for loading chart -->
+<script src="{%static 'graphjs/core.js'%}"></script>
+<script src="{%static 'graphjs/charts.js'%}"></script>
+<script src="{%static 'graphjs/animated.js'%}"></script>
+
+<!-- Styles -->
+<style>
+    #chartdiv {
+        width: 100%;
+        height: 500px;
+        max-width: 100%;
+    }
+</style>
+<link rel="stylesheet" href="{% static 'css/sidebar.css'%}">
+<link rel="stylesheet" href="{% static 'css/custom.css'%}">
+{% endblock heads %}
+
+<!-- block title -->
+{% block title %}Trading{% endblock title %}
+
+<!-- block for logout -->
+{% block logoutmodal %}
+{% include 'components/logoutconfirm.html' %}
+{% endblock logoutmodal %}
+
+<!-- sidebar block -->
+{% block sidebar %}
+{% include 'components/sidebar.html' %}
+{% endblock sidebar %}
+
+<!-- block content -->
+{% block content %}
+
+<!-- block navbar -->
+{% include 'components/navbar.html' %}
+
+<div class="container-fluid mt-2">
+
+    <!-- chart -->
+    <h3 style="float: left;">Candle Stick Graph of past month</h3>
+    <div id="controls" style="width: 100%; overflow: hidden;">
+        <div style="float: left; margin-left: 15px;">
+            From: <input type="text" id="fromfield" class="amcharts-input" />
+            To: <input type="text" id="tofield" class="amcharts-input" />
+        </div>
+        <div style="float: right; margin-right: 15px;">
+            <button id="b1m" class="amcharts-input">1m</button>
+            <button id="b3m" class="amcharts-input">3m</button>
+            <button id="b6m" class="amcharts-input">6m</button>
+            <button id="b1y" class="amcharts-input">1y</button>
+            <button id="bytd" class="amcharts-input">YTD</button>
+            <button id="bmax" class="amcharts-input">MAX</button>
+        </div>
+    </div>
+
+
+    <div id="chartdiv"></div>
+
+    <!-- table -->
+    <div class="container">
+        <h2 class="text-center"><u>Next 30 Days Prediction....</u></h2><br>
+        <table class="table table-dark table-striped">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Open</th>
+                    <th>High</th>
+                    <th>Low</th>
+                    <th>Close</th>
+                    <th>Volume</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if d %}
+                {% for i in d %}
+                <tr>
+                    <td>{{i.Date}}</td>
+                    <td>{{i.Open}}</td>
+                    <td>{{i.High}}</td>
+                    <td>{{i.Low}}</td>
+                    <td>{{i.Close}}</td>
+                    <td>{{i.Volume}}</td>
+                </tr>
+                {% endfor %}
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+{% endblock content %}
+
+
+
+{% block scripts %}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#sidebarCollapse').on('click', function () {
+            $('#sidebar').toggleClass('active');
+            $(this).toggleClass('active');
+        });
+    });
+</script>
+
+<script>
+    $("select").on("click", function () {
+
+        $(this).parent(".select-box").toggleClass("open");
+
+    });
+
+    $(document).mouseup(function (e) {
+        var container = $(".select-box");
+
+        if (container.has(e.target).length === 0) {
+            container.removeClass("open");
+        }
+    });
+
+
+    $("select").on("change", function () {
+
+        var selection = $(this).find("option:selected").text(),
+            labelFor = $(this).attr("id"),
+            label = $("[for='" + labelFor + "']");
+
+        label.find(".label-desc").html(selection);
+
+    });
+</script>
+
+<script>
+    am4core.ready(function () {
+
+        // Themes begin
+        am4core.useTheme(am4themes_animated);
+        // Themes end
+
+        // Create chart
+        var chart = am4core.create("chartdiv", am4charts.XYChart);
+        chart.padding(0, 15, 0, 15);
+
+        // Load data
+        chart.dataSource.url = "{%static 'csv/AAPL.csv'%}";
+
+        chart.dataSource.parser = new am4core.CSVParser();
+        chart.dataSource.parser.options.useColumnNames = true;
+        chart.dataSource.parser.options.reverse = true;
+
+        // the following line makes value axes to be arranged vertically.
+        chart.leftAxesContainer.layout = "vertical";
+
+        // uncomment this line if you want to change order of axes
+        //chart.bottomAxesContainer.reverseOrder = true;
+
+        var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+        dateAxis.renderer.grid.template.location = 0;
+        dateAxis.renderer.ticks.template.length = 8;
+        dateAxis.renderer.ticks.template.strokeOpacity = 0.1;
+        dateAxis.renderer.grid.template.disabled = true;
+        dateAxis.renderer.ticks.template.disabled = false;
+        dateAxis.renderer.ticks.template.strokeOpacity = 0.2;
+        dateAxis.renderer.minLabelPosition = 0.01;
+        dateAxis.renderer.maxLabelPosition = 0.99;
+        dateAxis.keepSelection = true;
+        dateAxis.minHeight = 30;
+
+        dateAxis.groupData = true;
+        dateAxis.minZoomCount = 5;
+
+        // these two lines makes the axis to be initially zoomed-in
+        // dateAxis.start = 0.7;
+        // dateAxis.keepSelection = true;
+
+        var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+        valueAxis.tooltip.disabled = true;
+        valueAxis.zIndex = 1;
+        valueAxis.renderer.baseGrid.disabled = true;
+        // height of axis
+        valueAxis.height = am4core.percent(65);
+
+        valueAxis.renderer.gridContainer.background.fill = am4core.color("#000000");
+        valueAxis.renderer.gridContainer.background.fillOpacity = 0.05;
+        valueAxis.renderer.inside = true;
+        valueAxis.renderer.labels.template.verticalCenter = "bottom";
+        valueAxis.renderer.labels.template.padding(2, 2, 2, 2);
+
+        //valueAxis.renderer.maxLabelPosition = 0.95;
+        valueAxis.renderer.fontSize = "0.8em"
+
+        var series = chart.series.push(new am4charts.CandlestickSeries());
+        series.dataFields.dateX = "Date";
+        series.dataFields.openValueY = "Open";
+        series.dataFields.valueY = "Close";
+        series.dataFields.lowValueY = "Low";
+        series.dataFields.highValueY = "High";
+        series.clustered = false;
+        series.tooltipText = "open: {openValueY.value}\nlow: {lowValueY.value}\nhigh: {highValueY.value}\nclose: {valueY.value}";
+        series.name = "MSFT";
+        series.defaultState.transitionDuration = 0;
+        chart.cursor = new am4charts.XYCursor();
+
+        var scrollbarX = new am4charts.XYChartScrollbar();
+
+        var sbSeries = chart.series.push(new am4charts.LineSeries());
+        sbSeries.dataFields.valueY = "Close";
+        sbSeries.dataFields.dateX = "Date";
+        scrollbarX.series.push(sbSeries);
+        sbSeries.disabled = true;
+        scrollbarX.marginBottom = 20;
+        chart.scrollbarX = scrollbarX;
+        scrollbarX.scrollbarChart.xAxes.getIndex(0).minHeight = undefined;
+
+
+
+        /**
+         * Set up external controls
+         */
+
+        // Date format to be used in input fields
+        var inputFieldFormat = "yyyy-MM-dd";
+
+        document.getElementById("b1m").addEventListener("click", function () {
+            var max = dateAxis.groupMax["day1"];
+            var date = new Date(max);
+            am4core.time.add(date, "month", -1);
+            zoomToDates(date);
+        });
+
+        document.getElementById("b3m").addEventListener("click", function () {
+            var max = dateAxis.groupMax["day1"];
+            var date = new Date(max);
+            am4core.time.add(date, "month", -3);
+            zoomToDates(date);
+        });
+
+        document.getElementById("b6m").addEventListener("click", function () {
+            var max = dateAxis.groupMax["day1"];
+            var date = new Date(max);
+            am4core.time.add(date, "month", -6);
+            zoomToDates(date);
+        });
+
+        document.getElementById("b1y").addEventListener("click", function () {
+            var max = dateAxis.groupMax["day1"];
+            var date = new Date(max);
+            am4core.time.add(date, "year", -1);
+            zoomToDates(date);
+        });
+
+        document.getElementById("bytd").addEventListener("click", function () {
+            var max = dateAxis.groupMax["day1"];
+            var date = new Date(max);
+            am4core.time.round(date, "year", 1);
+            zoomToDates(date);
+        });
+
+        document.getElementById("bmax").addEventListener("click", function () {
+            var min = dateAxis.groupMin["day1"];
+            var date = new Date(min);
+            zoomToDates(date);
+        });
+
+        dateAxis.events.on("selectionextremeschanged", function () {
+            updateFields();
+        });
+
+        dateAxis.events.on("extremeschanged", updateFields);
+
+        function updateFields() {
+            var minZoomed = dateAxis.minZoomed + am4core.time.getDuration(dateAxis.mainBaseInterval.timeUnit, dateAxis.mainBaseInterval.count) * 0.5;
+            document.getElementById("fromfield").value = chart.dateFormatter.format(minZoomed, inputFieldFormat);
+            document.getElementById("tofield").value = chart.dateFormatter.format(new Date(dateAxis.maxZoomed), inputFieldFormat);
+        }
+
+        document.getElementById("fromfield").addEventListener("keyup", updateZoom);
+        document.getElementById("tofield").addEventListener("keyup", updateZoom);
+
+        var zoomTimeout;
+        function updateZoom() {
+            if (zoomTimeout) {
+                clearTimeout(zoomTimeout);
+            }
+            zoomTimeout = setTimeout(function () {
+                var start = document.getElementById("fromfield").value;
+                var end = document.getElementById("tofield").value;
+                if ((start.length < inputFieldFormat.length) || (end.length < inputFieldFormat.length)) {
+                    return;
+                }
+                var startDate = chart.dateFormatter.parse(start, inputFieldFormat);
+                var endDate = chart.dateFormatter.parse(end, inputFieldFormat);
+
+                if (startDate && endDate) {
+                    dateAxis.zoomToDates(startDate, endDate);
+                }
+            }, 500);
+        }
+
+        function zoomToDates(date) {
+            var min = dateAxis.groupMin["day1"];
+            var max = dateAxis.groupMax["day1"];
+            dateAxis.keepSelection = true;
+            //dateAxis.start = (date.getTime() - min)/(max - min);
+            //dateAxis.end = 1;
+
+            dateAxis.zoom({ start: (date.getTime() - min) / (max - min), end: 1 });
+        }
+
+    }); // end am4core.ready()
+</script>
+
+{% endblock scripts %}

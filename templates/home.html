@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load static %}
+{% block heads %}
+
+
+<link rel="stylesheet" href="{% static 'css/sidebar.css'%}">
+<link rel="stylesheet" href="{% static 'css/custom.css'%}">
+
+    
+
+{% endblock heads %}
+{% block title %}Home{% endblock title %}
+
+
+{% block logoutmodal %}
+{% include 'components/logoutconfirm.html' %}
+{% endblock logoutmodal %}
+
+
+{% block sidebar %}
+{% include 'components/sidebar.html' %}
+{% endblock sidebar %}
+
+
+
+{% block content %}
+{% include 'components/navbar.html' %}
+{% include 'components/carousel.html' %}
+{% include 'components/popularblog.html' %}
+{% include 'components/contact.html' %}
+{% include 'components/footer.html' %}
+{% endblock content %}
+{% block scripts %}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#sidebarCollapse').on('click', function () {
+            $('#sidebar').toggleClass('active');
+            $(this).toggleClass('active');
+        });
+    });
+</script>
+{% endblock scripts %}

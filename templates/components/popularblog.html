@@ -1,0 +1,32 @@
+{% load static %}
+<div class="container-fluid">
+  <a id="blogsection"> </a>
+
+
+  <div>
+    <h2 class="blogtitle"><span>New Blog</span></h2>
+    <br />
+  </div>
+
+
+  <div class="container mt-4 mb-5">
+    <div class="card-deck mb-5">
+
+      {% for post in newpost %}
+      <div class="card mb-5">
+        <img src='/{{post.postImage}}' height="300px" class="card-img-top" alt="..." />
+        <div class="card-body">
+          <h5 class="card-title">{{post.title}}</h5>
+          <p class="card-text">
+            {{post.content | truncatechars:100}}
+          </p>
+          <a href="/blog/{{post.slug}}/" class="btn btn-primary">Go Detail</a>
+        </div>
+      </div>
+
+      {% endfor %}
+
+    </div>
+  </div>
+
+</div>

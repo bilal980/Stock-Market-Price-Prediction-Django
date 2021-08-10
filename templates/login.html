@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Login{% endblock title %}
+{% block heads %}
+<link rel="stylesheet" href="{% static 'css/login.css'%}">
+
+{% endblock heads %}
+{% block content %}
+{% if messages %}
+{%for message in messages%}
+<div class="alert {{message.tags}} alert-dismissible fade show" role="alert">
+    {{message}}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+{% endfor %} {% endif %}
+<div class="container h-100">
+    <div class="d-flex justify-content-center h-100">
+        <div class="user_card">
+            <div class="d-flex justify-content-center">
+                <div class="brand_logo_container">
+                    <img src="{% static 'img/logo.png'%}" class="brand_logo" alt="Logo">
+                </div>
+            </div>
+            <div class="d-flex justify-content-center form_container">
+                <form action="{%url 'login'%}" method='POST'>
+                    {% csrf_token %}
+                    <div class="input-group mb-3">
+                        <div class="input-group-append">
+                            <span class="input-group-text"><i class="fas fa-user"></i></span>
+                        </div>
+                        <input type="text" name="loginemail" class="form-control input_user" placeholder="Email"
+                            required autofocus>
+                    </div>
+                    <div class="input-group mb-2">
+                        <div class="input-group-append">
+                            <span class="input-group-text"><i class="fas fa-key"></i></span>
+                        </div>
+                        <input type="password" name="loginpassword" class="form-control input_pass"
+                            placeholder="password" required>
+                    </div>
+
+                    <div class="d-flex justify-content-center mt-3 login_container">
+                        <button type="submit" name="button" class="btn login_btn">Login</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="mt-4">
+                <div class="d-flex justify-content-center links">
+                    <a href="/signup" class="ml-2">Sign Up</a>
+                </div>
+                <div class="d-flex justify-content-center links">
+                    <a href="{%url 'reset_password'%}">Forgot your password?</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

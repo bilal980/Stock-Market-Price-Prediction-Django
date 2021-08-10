@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% load static %}
+{% block heads %}
+<link rel="stylesheet" href="{% static 'css/sidebar.css'%}">
+<link rel="stylesheet" href="{% static 'css/custom.css'%}">
+{% endblock heads %}
+{% block title %}Blog Posts{% endblock title %}
+
+{% block logoutmodal %}
+{% include 'components/logoutconfirm.html' %}
+{% endblock logoutmodal %}
+
+{% block sidebar %}
+{% include 'components/sidebar.html' %}
+{% endblock sidebar %}
+
+{% block content %}
+{% include 'components/navbar.html' %}
+
+<div class="container">
+
+    <div class="page-header">
+        <h1>Fox Trading <small>with AI | Blog</small></h1>
+        <hr>
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-8">
+            {% for post in allpost %}
+
+            <article id="">
+                <header>
+                    <div class="meta">
+
+                        Posted by <strong><span class="author">{{post.author}} </span></strong>
+                        <span class="date"> on {{post.time}}</span>
+                    </div>
+                    <br>
+                    <h2 style="margin-bottom: 4px;" S>
+                        <a href="">
+                            {{ post.title }} :</a></h2>
+                    <br>
+                </header>
+                <div class="entry-content">
+                    <a href="">
+                        <img src='/{{post.postImage}}' alt="No Image" class="img-fluid" />
+                    </a>
+                    <p class="lead">{{post.content | truncatechars:150}}</p>
+
+                    <a href="/blog/{{post.slug}}/" class="btn btn-primary">Go Details<span
+                            class="glyphicon glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+                </div>
+                <footer>
+                </footer>
+            </article>
+            {% endfor %}
+
+            <nav>
+
+                <ul class="pagination">
+                    <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+                    </li>
+                    <li class="active"><a href="/1">1 <span class="sr-only">(current)</span></a></li>
+                    <li><a href="/blog/2">2</a></li>
+                    <li><a href="/3">3</a></li>
+                    <li><a href="/4">4</a></li>
+                    <li><a href="/5">5</a></li>
+                    <li><a href="/6" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
+                </ul>
+            </nav>
+
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+{% include 'components/footer.html' %}
+{% endblock content %}
+{% block scripts %}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#sidebarCollapse').on('click', function () {
+            $('#sidebar').toggleClass('active');
+            $(this).toggleClass('active');
+        });
+    });
+</script>
+{% endblock scripts %}

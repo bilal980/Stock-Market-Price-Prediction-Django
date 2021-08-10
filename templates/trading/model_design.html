@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% load static %}
+{% block heads %}
+
+<link rel="stylesheet" href="{% static 'css/sidebar.css'%}">
+<link rel="stylesheet" href="{% static 'css/custom.css'%}">
+
+{% endblock heads %}
+{% block title %}Stock Prediction{% endblock title %}
+
+
+{% block logoutmodal %}
+{% include 'components/logoutconfirm.html' %}
+{% endblock logoutmodal %}
+
+
+{% block sidebar %}
+{% include 'components/sidebar.html' %}
+{% endblock sidebar %}
+
+
+
+{% block content %}
+{% include 'components/navbar.html' %}
+<div class="container" id="modal_design">
+<h3>Stock Forecaster</h3>
+<br>
+<h5>Model Desing
+    <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="left"
+        title="Define the parameters of the LSTM Neural Network"><span class="fa fa-info-circle"></span></button>
+</h5>
+<p>You want the prediction of {{predvariable}} market of {{symbol}} the training data will use
+    {{from_date}} to {{to_date}}</p>
+<div class="container-fluid">
+    <div class="row">
+        <!-- INPUT FORM -->
+        <div class="col col-4">
+            <form action="{%url 'new_predicton_result'%}" method="POST">
+                {% csrf_token %}
+                <input name="variable" type="hidden" value={{predvariable}}>
+
+                <input name="from" type="hidden" value={{from_date}}>
+                <input name="to" type="hidden" value={{to_date}}>
+                <input name="symbol" type="hidden" value={{symbol}}>
+
+
+                <br><label>Window size
+                    <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="left"
+                        title="How often the pattern appears? For example use the last 20 days to predict the 21st day, if you think there is a pattern every 20 days."><span
+                            class="fa fa-info-circle"></span></button>
+                </label>
+                <input type="text" name="window" class="form-control" placeholder="20" required
+                    value={{request.form.window}}>
+
+                <br><label>Days ahead to predict
+                    <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="left"
+                        title="How many days ahead you want to predict? The more the less precise it gets."><span
+                            class="fa fa-info-circle"></span></button>
+                </label>
+                <input type="text" name="ahead" class="form-control" placeholder="5" required>
+
+                <br><label>Number of Neurons your A.I. shall use
+                    <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="left"
+                        title="The more the better but the longer it takes to perform the task."><span
+                            class="fa fa-info-circle"></span></button>
+                </label>
+                <small style="color: green;">More Neurons Higher accuracy But take more time</small>
+                <input type="text" name="neurons" class="form-control" placeholder="50" required
+                    value={{request.form.neurons}}>
+                    <br>
+                <button  type="submit"  class="btn btn-primary" id="btnModel">Predict</button>
+            </form>
+            <br>
+        </div>
+
+
+    </div>
+</div>
+</div>
+{% include 'components/footer.html' %}
+
+{% endblock content %}
+{% block scripts %}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#sidebarCollapse').on('click', function () {
+            $('#sidebar').toggleClass('active');
+            $(this).toggleClass('active');
+        });
+    });
+</script>
+
+{% endblock scripts %}

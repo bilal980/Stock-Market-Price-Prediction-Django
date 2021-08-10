@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    {% load static %}
+<script src="https://kit.fontawesome.com/5506a3efa1.js" crossorigin="anonymous"></script>
+    <title>{% block title %} {% endblock title %}</title>
+    <link rel="stylesheet" href="{%static 'bootstrap/css/bootstrap.min.css'%}" />
+    <link rel="stylesheet" href="{% static 'css/font.css'%}" />
+
+
+    {% block heads %} {% endblock heads %}
+
+    <script defer src="{%static 'font/solid.js'%}"></script>
+</head>
+
+<body>
+
+    {% block logoutmodal %} {% endblock logoutmodal %}
+
+    {% block sidebar %}
+    {% endblock sidebar %}
+
+    <!-- Page Content Holder -->
+    <divs style="padding-bottom: 0;" id="content">{% block content %} {% endblock content %}</div>
+    <script src="{%static 'jquery/jquery.slim.min.js'%}"></script>
+    <script src="{%static 'popper/popper.min.js'%}"></script>
+    <script src="{%static 'bootstrap/js/bootstrap.min.js'%}"></script>
+    {% block scripts %} {% endblock scripts %}
+</body>
+
+</html>
